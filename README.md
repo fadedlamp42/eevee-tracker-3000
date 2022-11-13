@@ -56,9 +56,21 @@ ALTER TABLE
   public.status
 ADD
   CONSTRAINT status_log_pkey PRIMARY KEY (id);
+
+CREATE TABLE public.champion (
+  name character varying(255) NOT NULL,
+  created_at timestamp without time zone NOT NULL,
+  id integer NOT NULL
+);
+ALTER TABLE
+  public.champion
+ADD
+  CONSTRAINT champion_pkey PRIMARY KEY (id);
 ```
 
 *The `match.timestp` column should be generated in similar fashion to `match.duration`, but I forgot to copy the `ALTER TABLE` statement when I wrote it. This will be added to the above script in the future.*
+
+*The `champion` table can be filled using the data array in [champion.json]*
 
 ## Usage
 
