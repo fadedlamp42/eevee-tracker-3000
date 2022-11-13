@@ -140,7 +140,8 @@ const poll = async () => {
 	}
 
 	const statusChangedAt = await latestStatusTime(!game);
-	const status = `${game ? 'in-game' : 'out-of-game'} at ${new Date().toLocaleString()} since ${statusChangedAt.toLocaleTimeString()} (${
+	const playing = game ? await db.one(`SELECT name FROM champion WHERE id = $<id>`, {id: game.participants.find(p => p.summonerId === config.account.summonerId).championId}) : undefined;
+	const status = `${game ? `in-game as ${playing.name}` : 'out-of-game'} at ${new Date().toLocaleString()} since ${statusChangedAt.toLocaleTimeString()} (${
 		((Number(new Date()) - Number(statusChangedAt)) / 1000 / 60).toFixed(1)
 	} minutes)`;
 	console.info(status);
