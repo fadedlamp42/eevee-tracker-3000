@@ -2,6 +2,8 @@ require('dotenv').config();
 
 const { RiotClient, Riot } = require('poro');
 const pgp = require('pg-promise')();
+const express = require('express');
+
 const db = pgp({
 	host: process.env.DB_HOST,
 	port: process.env.DB_PORT,
@@ -9,6 +11,8 @@ const db = pgp({
 	password: process.env.DB_PASSWORD,
 	database: 'eeveetracker',
 });
+
+const app = express();
 
 const config = require('./config.json');
 const apiKey = process.env.RIOT_API_KEY;
@@ -136,11 +140,24 @@ const poll = async () => {
 	}
 
 	const statusChangedAt = await latestStatusTime(!game);
-	console.info(`${game ? 'in-game' : 'out-of-game'} at ${new Date().toLocaleString()} since ${statusChangedAt.toLocaleTimeString()} (${
+	const status = `${game ? 'in-game' : 'out-of-game'} at ${new Date().toLocaleString()} since ${statusChangedAt.toLocaleTimeString()} (${
 		((Number(new Date()) - Number(statusChangedAt)) / 1000 / 60).toFixed(1)
-	} minutes)`);
+	} minutes)`;
+	console.info(status);
+	
 	await db.none(`INSERT INTO summary(data) VALUES ($<data>)`, {data: summary});
+	await db.none(`INSERT INTO status(output) VALUES ($<output>)`, {output: status});
+
+	return status;
 }
 
 poll();
 setInterval(poll, config.interval);
+
+app.get('/', (req, res) => {
+	const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+	console.info(`sending status to ${ip}`);
+	poll().then(status => res.send(status));
+});
+
+app.listen(1313);

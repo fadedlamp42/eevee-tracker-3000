@@ -46,6 +46,16 @@ ALTER TABLE
   public.summary
 ADD
   CONSTRAINT summary_pkey PRIMARY KEY (id);
+
+CREATE TABLE public.status (
+  output text NOT NULL,
+  created_at timestamp without time zone NOT NULL,
+  id integer NOT NULL
+);
+ALTER TABLE
+  public.status
+ADD
+  CONSTRAINT status_log_pkey PRIMARY KEY (id);
 ```
 
 *The `match.timestp` column should be generated in similar fashion to `match.duration`, but I forgot to copy the `ALTER TABLE` statement when I wrote it. This will be added to the above script in the future.*
@@ -53,3 +63,10 @@ ADD
 ## Usage
 
 Use `npm run start` to run in production mode or `npm run watch` to run in development mode with `nodemon`.
+
+A single-route REST API is setup to listen for `GET /` on port `1313` which will return a flat string representation of the account's current status:
+
+```
+> curl localhost:1313
+in-game at 11/12/2022, 10:32:42 PM since 10:29:00 PM (3.7 minutes)
+```
