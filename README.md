@@ -70,7 +70,7 @@ ADD
 
 *The `match.timestp` column should be generated in similar fashion to `match.duration`, but I forgot to copy the `ALTER TABLE` statement when I wrote it. This will be added to the above script in the future.*
 
-*The `champion` table can be filled using the data array in [champion.json]*
+*The `champion` table can be filled using the data array in [champion.json](https://ddragon.leagueoflegends.com/cdn/12.21.1/data/en_US/champion.json)*
 
 ## Usage
 
