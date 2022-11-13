@@ -80,5 +80,5 @@ A single-route REST API is setup to listen for `GET /` on port `1313` which will
 
 ```
 > curl localhost:1313
-in-game at 11/12/2022, 10:32:42 PM since 10:29:00 PM (3.7 minutes)
+in-game as Soraka at 11/12/2022, 10:32:42 PM since 10:29:00 PM (3.7 minutes)
 ```
