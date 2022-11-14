@@ -66,6 +66,8 @@ ALTER TABLE
   public.champion
 ADD
   CONSTRAINT champion_pkey PRIMARY KEY (id);
+
+ALTER TABLE summary ADD COLUMN ingame BOOL GENERATED ALWAYS AS (data->>'ingame' = 'true') STORED;
 ```
 
 *The `match.timestp` column should be generated in similar fashion to `match.duration`, but I forgot to copy the `ALTER TABLE` statement when I wrote it. This will be added to the above script in the future.*
