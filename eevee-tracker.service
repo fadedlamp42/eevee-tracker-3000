@@ -1,0 +1,13 @@
+[Unit]
+Description=eevee-tracker-3000 Server
+After=multi-user.target
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=npm run start
+Environment="HOME=/home/pi/"
+WorkingDirectory=/ext/Sync/code/eevee-tracker-3000/
+
+[Install]
+WantedBy=multi-user.target
